@@ -1,0 +1,11 @@
+# Ignore compiled Python bytecode
+*.pyc
+
+# Ignore environment files
+.env
+
+# Ignore virtual environment directory
+venv/
+
+# Ignore Node.js modules
+node_modules/
