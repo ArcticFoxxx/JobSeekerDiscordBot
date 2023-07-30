@@ -1,19 +1,33 @@
-name: hello-world
+name: deploy-discord-bot
 
-on: 
-    push:
-        branches: [ main ]
+on:
+  push:
+    branches: [main]
+
 jobs:
-  hello:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: run a one-line script
-        run: echo "Hello World!"
+      - name: Check out the code
+        uses: actions/checkout@v2
+
+      - name: Install Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          cd JobSeekersBot/
+          python -m pip install -r requirements.txt
+          
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v1.0.0
-        with: 
+        with:
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
-
-
+          script: |
+            cd ./JobSeekerDiscordBot/
+            git pull
+            python main.py 
