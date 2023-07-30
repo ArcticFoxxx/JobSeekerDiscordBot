@@ -18,9 +18,9 @@ jobs:
 
       - name: Install dependencies
         run: |
-          cd JobSeekersBot/
+          cd JobSeekerDiscordBot/
           python -m pip install -r requirements.txt
-          
+
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v1.0.0
         with:
@@ -28,6 +28,6 @@ jobs:
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
           script: |
-            cd ./JobSeekerDiscordBot/
+            cd JobSeekerDiscordBot/
             git pull
             python main.py 
