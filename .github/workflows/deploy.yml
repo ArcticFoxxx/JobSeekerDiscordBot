@@ -3,10 +3,6 @@ name: deploy-discord-bot
 on:
   push:
     branches: [main]
-    
-env:
-  DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
-  API_KEY: ${{ secrets.API_KEY }}
 
 jobs:
   deploy:
@@ -14,9 +10,12 @@ jobs:
     steps:
       - name: Check out the code
         uses: actions/checkout@v2
-
+       
       - name: SSH Remote Commands
         uses: appleboy/ssh-action@v1.0.0
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          API_KEY: ${{ secrets.API_KEY }}
         with:
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
