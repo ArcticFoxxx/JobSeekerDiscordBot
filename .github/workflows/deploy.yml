@@ -3,6 +3,10 @@ name: deploy-discord-bot
 on:
   push:
     branches: [main]
+    
+env:
+  DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+  API_KEY: ${{ secrets.API_KEY }}
 
 jobs:
   deploy:
@@ -17,9 +21,6 @@ jobs:
           HOST: ${{ secrets.HOST }}
           USERNAME: ${{ secrets.USERNAME }}
           PASSWORD: ${{ secrets.PASSWORD }}
-          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
-          API_KEY: ${{ secrets.API_KEY }}
-
           script: |
             cd ~/JobSeekerDiscordBot
             git pull
