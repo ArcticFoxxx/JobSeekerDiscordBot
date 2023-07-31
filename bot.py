@@ -5,7 +5,7 @@ from discord.ext import commands
 import os
 
 MAX_LIMIT = 10
-TOKEN = os.environ.get("TOKEN")
+TOKEN = os.environ.get("DISCORD_BOT_TOKEN")
 
 # Replace the default help command with your custom help command
 def run_discord_bot():
