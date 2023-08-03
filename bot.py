@@ -5,7 +5,7 @@ from main import bot
 
 MAX_LIMIT = 10
 #TOKEN = os.environ.get("DISCORD_BOT_TOKEN")
-TOKEN = "MTEyOTc3NTk0ODM2ODE5MTU2OQ.GyA9y5.rZdav3_CzdZaJr_fTYsq0-TvMbuh59H2yp1obs"
+
 
 class CustomHelpCommand(commands.DefaultHelpCommand):
     # Override the send_help method to customize the help message format
