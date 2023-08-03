@@ -1,0 +1,71 @@
+from dataclasses import dataclass
+import discord
+
+@dataclass
+class JobModel():
+    def __init__(self) -> None:
+        title: str = "N/A"
+        description: str = "N/A"
+        company: str = "N/A"
+        location: str = "N/A"
+        salary_min: str 
+        salary_max: str 
+        currency: str = "£"
+        expiration_date: str = "N/A"
+        job_url: str = "N/A"
+
+    def salary_range(self) -> str:
+        if self.salary_min is None or self.salary_max is None:
+            return "No salary information"
+        else:
+            return f'{self.currency} {self.salary_min} - {self.currency} {self.salary_max}'
+        
+    def job_embed(self):
+        # would need to pass this on in the await function, not sure if I should have this embeding here then tbh. 
+        # remove for now
+        icon = discord.File("reed_icon.png")
+
+        embed = discord.Embed(
+            title = self.title,
+            description = self.description,
+            color=discord.Colour.blurple()
+            )
+        embed.add_field(name = "Company", value = self.company)
+        embed.add_field(name = "Location", value = self.location, inline = True)
+        
+        embed.add_field(name = "Salary", value = self.salary_range(), inline = True)
+        embed.add_field(name = "Expiration", value = self.expiration_date, inline = True)
+    
+        embed.set_footer(text = "If you notice any mistakes I make, contact Artic Fox.")
+        #embed.set_author(name = "Job Search", icon_url = "attachment://reed_icon.png")
+        embed.set_thumbnail(url="https://www.inhouserecruitment.co.uk/wp-content/uploads/2020/01/Reed-NEW-LOGO-1000x600-1.png")
+        embed.set_image(url="https://images.squarespace-cdn.com/content/v1/5c42569fb98a78e171f10428/1634545592886-X3OITPQ6S1Z2IQ0V01A7/Frame+269.png")
+    
+        return embed
+
+
+def convert_job_listing_to_embed(job_listing):
+    title = job_listing['jobTitle'] if job_listing['jobTitle'] is not None else "No Title"
+    description = job_listing['jobDescription'] if job_listing['jobDescription'] is not None else "No Description"
+    company = job_listing['employerName'] if job_listing['employerName'] is not None else "No Company"
+    location = job_listing['locationName'] if job_listing['locationName'] is not None else "No Location"
+    salary_min = '{:,}'.format(job_listing['minimumSalary']) if job_listing['minimumSalary'] is not None else "No Minimum Salary"
+    salary_max = '{:,}'.format(job_listing['maximumSalary']) if job_listing['maximumSalary'] is not None else "No Maximum Salary"
+    currency = job_listing['currency'] if job_listing['currency'] is not None else "No Currency"
+    expiration_date = job_listing['expirationDate'] if job_listing['expirationDate'] is not None else "No Expiration Date"
+    job_url = job_listing['jobUrl'] if job_listing['jobUrl'] is not None else "No Job URL"
+
+    embed = discord.Embed(title=title, description=description, color=discord.Color.green())
+    embed.add_field(name='Company', value=company, inline=False)
+    embed.add_field(name='Location', value=location, inline=False)
+
+    if currency == "No currency":
+        embed.add_field(name='Salary', value='No salary available', inline=False)
+    else:
+        embed.add_field(name='Salary', value=f'{currency} {salary_min} - {currency} {salary_max}', inline=False)
+
+    embed.add_field(name='Expiration Date', value=expiration_date, inline=False)
+    embed.add_field(name='Job URL', value=job_url, inline=False)
+
+    return embed
+
